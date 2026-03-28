@@ -32,7 +32,7 @@ export const GestionUsuariosPage = () => {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1>Arquitectura Hexagonal</h1>
+        <h1>Arquitectura Hexagonal | Ambiente Desarrollo</h1>
         <p>Consumiendo API de forma desacoplada</p>
       </header>
 
