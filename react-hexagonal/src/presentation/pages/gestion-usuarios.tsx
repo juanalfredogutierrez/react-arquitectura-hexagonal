@@ -1,14 +1,17 @@
-import { gestionUsuarioHooks } from "../hooks/gestion-usuario.actions";
+
+import type { Usuario } from "../../core/entities/usuario";
+import { gestionUsuarioHooks } from "../hooks/gestion-usuario.hook";
 import styles from "./gestion-usuarios.module.css"; // 👈 Importación del CSS Module
+
 
 export const GestionUsuariosPage = () => {
   const {
     users,
+    createUser,
+    deleteUser,
     isLoading,
     isError,
-    createUser,
     isCreating,
-    deleteUser,
     isDeleting,
   } = gestionUsuarioHooks();
 
@@ -50,11 +53,11 @@ export const GestionUsuariosPage = () => {
       </section>
 
       <ul className={styles.list}>
-        {users.map((user) => (
-          <li key={user.id} className={styles.listItem}>
+        {users.map((usuario: Usuario) => (
+          <li key={usuario.id} className={styles.listItem}>
             <div className={styles.userInfo}>
-              <span className={styles.userName}>{user.name}</span>
-              <span className={styles.userEmail}>{user.email}</span>
+              <span className={styles.userName}>{usuario.name}</span>
+              <span className={styles.userEmail}>{usuario.email}</span>
             </div>
 
             <div className={styles.actions}> {/* Contenedor para botones */}
@@ -62,7 +65,7 @@ export const GestionUsuariosPage = () => {
                 className={styles.deleteButton}
                 disabled={isDeleting}
                 onClick={() => {
-                  if (confirm(`¿Eliminar a ${user.name}?`)) deleteUser(user.id);
+                  if (confirm(`¿Eliminar a ${usuario.name}?`)) deleteUser(usuario.isActive);
                 }}
               >
                 {isDeleting ? '...' : 'Eliminar'}
