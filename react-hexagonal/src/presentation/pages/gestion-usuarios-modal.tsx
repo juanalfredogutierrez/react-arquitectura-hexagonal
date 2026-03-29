@@ -8,6 +8,7 @@ interface Props {
 }
 
 export const GestionUsuarioModal = ({ user, isLoading, onClose }: Props) => {
+
   if (isLoading) {
     return (
       <div className={styles.modalOverlay} onClick={onClose}>
@@ -16,6 +17,7 @@ export const GestionUsuarioModal = ({ user, isLoading, onClose }: Props) => {
     );
   }
 
+  
   if (!user) return null;
 
   return (

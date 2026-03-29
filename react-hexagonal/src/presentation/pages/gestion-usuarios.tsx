@@ -4,8 +4,10 @@ import type { Usuario } from "../../core/entities/usuario";
 import { gestionUsuarioHooks } from "../hooks/gestion-usuario.hook";
 import styles from "./gestion-usuarios.module.css"; // 👈 Importación del CSS Module
 import { GestionUsuarioModal } from "./gestion-usuarios-modal";
+import { GestionUsuarioForm } from "./gestion-usuarios-create-modal";
 
 export const GestionUsuariosPage = () => {
+    const [showForm, setShowForm] = useState(false); // 👈 Nuevo estado
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const {
     users,
@@ -43,18 +45,12 @@ export const GestionUsuariosPage = () => {
         <p>Consumiendo API de forma desacoplada</p>
       </header>
 
-      <section className={styles.formSection}>
-        <button
-          className={styles.createButton}
-          disabled={isCreating}
-          onClick={() => createUser({
-            name: 'Nuevo Usuario Profesional',
-            email: 'dev@arquitectura.com'
-          })}
-        >
-          {isCreating ? 'Guardando...' : '➕ Agregar Usuario'}
+     <section className={styles.formSection}>
+        <button className={styles.createButton} onClick={() => setShowForm(true)}>
+          ➕ Agregar Usuario
         </button>
       </section>
+
 
       <ul className={styles.list}>
         {users.map((usuario: Usuario) => (
@@ -87,6 +83,7 @@ export const GestionUsuariosPage = () => {
           </li>
         ))}
       </ul>
+
       {selectedId && (
         <GestionUsuarioModal
           user={userDetail}
@@ -94,6 +91,22 @@ export const GestionUsuariosPage = () => {
           onClose={() => setSelectedId(null)}
         />
       )}
+
+
+     {showForm && (
+        <GestionUsuarioForm 
+          isSaving={isCreating}
+          onCancel={() => setShowForm(false)}
+          onSave={(data) => {
+            createUser(data, { 
+              onSuccess: () => setShowForm(false) // Cierra al terminar
+            });
+          }}
+        />
+      )}
+
+
+      
     </div>
   );
 };
