@@ -1,10 +1,11 @@
 
+import { useState } from "react";
 import type { Usuario } from "../../core/entities/usuario";
 import { gestionUsuarioHooks } from "../hooks/gestion-usuario.hook";
 import styles from "./gestion-usuarios.module.css"; // 👈 Importación del CSS Module
 
-
 export const GestionUsuariosPage = () => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const {
     users,
     createUser,
@@ -13,7 +14,7 @@ export const GestionUsuariosPage = () => {
     isError,
     isCreating,
     isDeleting,
-  } = gestionUsuarioHooks();
+  } = gestionUsuarioHooks(selectedId);
 
   if (isLoading) {
     return (
@@ -73,6 +74,9 @@ export const GestionUsuariosPage = () => {
 
               <button
                 className={styles.detailsButton}
+                   onClick={() => {
+                    setSelectedId(usuario.id);
+                }}
               >
                 Ver Detalles
               </button>

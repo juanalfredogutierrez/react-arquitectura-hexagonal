@@ -1,29 +1,26 @@
-// src/presentation/hooks/useUsers.ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { GestionUsuariosUseCases } from '../../core/use-cases/gestion-usuarios-UseCase';
-import type { Usuario } from '../../core/entities/usuario';
-import { ApiUsuarioRepository } from '../../infrastructure/api/api-usuario-repository';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { GestionUsuariosUseCases } from "../../core/use-cases/gestion-usuarios-UseCase";
+import { ApiUsuarioRepository } from "../../infrastructure/api/api-usuario-repository";
+import type { Usuario } from "../../core/entities/usuario";
 
-// Instanciamos las acciones fuera para no recrearlas en cada render
-const actions = GestionUsuariosUseCases(ApiUsuarioRepository);
-
-export const gestionUsuarioHooks = (selectedUserId: string | null = null) => {
+export const gestionUsuarioHooks = (userId: string | null = null) => {
   const queryClient = useQueryClient();
+  const actions = GestionUsuariosUseCases(ApiUsuarioRepository);
 
-  // 1. GET LISTA
+  // Query de la Lista
   const usersQuery = useQuery({
     queryKey: ['users'],
     queryFn: actions.getAll,
   });
 
-  // 2. GET DETALLES (Se activa solo si hay un ID)
+  // Query del Detalle (se activa solo si pasas un ID)
   const detailsQuery = useQuery({
-    queryKey: ['users', selectedUserId],
-    queryFn: () => actions.getDetails(selectedUserId!),
-    enabled: !!selectedUserId,
+    queryKey: ['users', userId],
+    queryFn: () => actions.getDetails(userId!),
+    enabled: !!userId, // No se ejecuta si el ID es null
   });
 
-  // 3. MUTACIONES
+  // Mutaciones
   const createMutation = useMutation({
     mutationFn: actions.create,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
@@ -35,7 +32,7 @@ export const gestionUsuarioHooks = (selectedUserId: string | null = null) => {
   });
 
   return {
-    // Datos
+// Datos
     users: usersQuery.data ?? [] as Usuario[],
     userDetail: detailsQuery.data, // Detalles del usuario seleccionado
     
@@ -51,5 +48,6 @@ export const gestionUsuarioHooks = (selectedUserId: string | null = null) => {
     
     // Errores
     isError: usersQuery.isError || detailsQuery.isError,
+    
   };
 };

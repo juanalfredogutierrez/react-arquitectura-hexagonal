@@ -16,7 +16,10 @@ export const ApiUsuarioRepository: UsuarioRepository = {
   },
 
   getDetails: async (id: string) => {
+      console.log('consulta detalles:', id); // Log para verificar la respuesta
     const res = await api.get<Usuario>(`/users/${id}`);
+    console.log('respuesta detalles:', res.data); // Log para verificar la respuesta
+
     return res.data;
   },
 
