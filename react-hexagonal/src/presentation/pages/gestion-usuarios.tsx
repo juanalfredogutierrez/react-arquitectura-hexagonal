@@ -3,11 +3,14 @@ import { useState } from "react";
 import type { Usuario } from "../../core/entities/usuario";
 import { gestionUsuarioHooks } from "../hooks/gestion-usuario.hook";
 import styles from "./gestion-usuarios.module.css"; // 👈 Importación del CSS Module
+import { GestionUsuarioModal } from "./gestion-usuarios-modal";
 
 export const GestionUsuariosPage = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const {
     users,
+    userDetail,         // 👈 AGREGAR ESTA
+    isDetailsLoading,   // 👈 AGREGAR ESTA
     createUser,
     deleteUser,
     isLoading,
@@ -66,7 +69,7 @@ export const GestionUsuariosPage = () => {
                 className={styles.deleteButton}
                 disabled={isDeleting}
                 onClick={() => {
-                  if (confirm(`¿Eliminar a ${usuario.name}?`)) deleteUser(usuario.isActive);
+                  if (confirm(`¿Eliminar a ${usuario.name}?`)) deleteUser(usuario.id.toString());
                 }}
               >
                 {isDeleting ? '...' : 'Eliminar'}
@@ -74,8 +77,8 @@ export const GestionUsuariosPage = () => {
 
               <button
                 className={styles.detailsButton}
-                   onClick={() => {
-                    setSelectedId(usuario.id);
+                onClick={() => {
+                  setSelectedId(usuario.id.toString());
                 }}
               >
                 Ver Detalles
@@ -84,6 +87,13 @@ export const GestionUsuariosPage = () => {
           </li>
         ))}
       </ul>
+      {selectedId && (
+        <GestionUsuarioModal
+          user={userDetail}
+          isLoading={isDetailsLoading}
+          onClose={() => setSelectedId(null)}
+        />
+      )}
     </div>
   );
 };
