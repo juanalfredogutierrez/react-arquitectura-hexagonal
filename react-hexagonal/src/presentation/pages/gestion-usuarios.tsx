@@ -2,17 +2,17 @@
 import { useState } from "react";
 import type { Usuario } from "../../core/entities/usuario";
 import { gestionUsuarioHooks } from "../hooks/gestion-usuario.hook";
-import styles from "./gestion-usuarios.module.css"; // 👈 Importación del CSS Module
+import styles from "./gestion-usuarios.module.css";
 import { GestionUsuarioModal } from "./gestion-usuarios-modal";
-import { GestionUsuarioForm } from "./gestion-usuarios-create-modal";
+import { CreateUsuarioFormModal } from "./gestion-usuarios-create-modal";
 
 export const GestionUsuariosPage = () => {
-    const [showForm, setShowForm] = useState(false); // 👈 Nuevo estado
+  const [showForm, setShowForm] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const {
     users,
-    userDetail,         // 👈 AGREGAR ESTA
-    isDetailsLoading,   // 👈 AGREGAR ESTA
+    userDetail,
+    isDetailsLoading,
     createUser,
     deleteUser,
     isLoading,
@@ -45,7 +45,7 @@ export const GestionUsuariosPage = () => {
         <p>Consumiendo API de forma desacoplada</p>
       </header>
 
-     <section className={styles.formSection}>
+      <section className={styles.formSection}>
         <button className={styles.createButton} onClick={() => setShowForm(true)}>
           ➕ Agregar Usuario
         </button>
@@ -93,12 +93,12 @@ export const GestionUsuariosPage = () => {
       )}
 
 
-     {showForm && (
-        <GestionUsuarioForm 
+      {showForm && (
+        <CreateUsuarioFormModal
           isSaving={isCreating}
           onCancel={() => setShowForm(false)}
           onSave={(data) => {
-            createUser(data, { 
+            createUser(data, {
               onSuccess: () => setShowForm(false) // Cierra al terminar
             });
           }}
@@ -106,7 +106,7 @@ export const GestionUsuariosPage = () => {
       )}
 
 
-      
+
     </div>
   );
 };

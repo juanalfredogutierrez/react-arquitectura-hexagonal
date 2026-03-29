@@ -182,3 +182,27 @@
   outline: none;
   box-shadow: 0 0 4px rgba(0,123,255,0.2);
 }
+
+
+/* Heredamos estilos del inputField y ajustamos detalles específicos */
+.selectField {
+  width: 100%;
+  padding: 10px; /* Un poco más de espacio para el select */
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  appearance: none; /* Quita el estilo por defecto en algunos navegadores */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://w3.org' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
+}
+
+.selectField:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0,123,255,0.2);
+}

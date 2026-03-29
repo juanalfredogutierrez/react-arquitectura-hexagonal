@@ -31,6 +31,12 @@ export const gestionUsuarioHooks = (userId: string | null = null) => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
   });
 
+    return useQuery({
+    queryKey: ['roles'],
+    queryFn: actions.getRoles, // La función que hace: api.get('/roles')
+    staleTime: Infinity, // Los roles no suelen cambiar, los dejamos en caché permanente
+  });
+
   return {
 // Datos
     users: usersQuery.data ?? [] as Usuario[],

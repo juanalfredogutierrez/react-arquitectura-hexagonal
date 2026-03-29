@@ -7,19 +7,20 @@ interface Props {
   isSaving: boolean;
 }
 
-export const GestionUsuarioForm = ({ onSave, onCancel, isSaving }: Props) => {
+export const CreateUsuarioFormModal = ({ onSave, onCancel, isSaving }: Props) => {
   // Estado inicial basado en la estructura de tu objeto
   const [formData, setFormData] = useState({
     name: "",
     username: "",
     email: "",
+     role: "Usuario básico", 
     phone: "",
     website: "",
     company: { name: "", catchPhrase: "" },
     address: { street: "", city: "" }
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSave(formData);
   };
@@ -28,59 +29,92 @@ export const GestionUsuarioForm = ({ onSave, onCancel, isSaving }: Props) => {
     <div className={styles.modalOverlay}>
       <form className={styles.modalContent} onSubmit={handleSubmit}>
         <h2>Crear Nuevo Usuario</h2>
-        
+
         <div className={styles.detailGrid}>
+
+          {/* SELECT PARA TIPO DE USUARIO */}
+          <div className={styles.detailItem}>
+            <label className={styles.label}>Tipo de Usuario</label>
+            <select
+              className={styles.selectField} // 👈 Nuevo estilo
+              value={formData.role}
+              onChange={e => setFormData({ ...formData, role: e.target.value })}
+            >
+              <option value="Admin">Admin</option>
+              <option value="SuperUsuario">SuperUsuario</option>
+              <option value="Usuario básico">Usuario básico</option>
+            </select>
+          </div>
+
           {/* Información Básica */}
           <div className={styles.detailItem}>
             <label className={styles.label}>Nombre Completo</label>
-            <input 
+            <input
               className={styles.inputField}
               required
               value={formData.name}
-              onChange={e => setFormData({...formData, name: e.target.value})}
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
             />
           </div>
 
           <div className={styles.detailItem}>
             <label className={styles.label}>Email</label>
-            <input 
+            <input
               type="email"
               className={styles.inputField}
               required
               value={formData.email}
-              onChange={e => setFormData({...formData, email: e.target.value})}
+              onChange={e => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
 
           {/* Empresa (Objeto anidado) */}
+
           <div className={styles.detailItem}>
             <label className={styles.label}>Empresa</label>
-            <input 
+            <input
               className={styles.inputField}
               placeholder="Nombre de la empresa"
               value={formData.company.name}
               onChange={e => setFormData({
-                ...formData, 
+                ...formData,
                 company: { ...formData.company, name: e.target.value }
               })}
             />
           </div>
 
-          {/* Ciudad */}
           <div className={styles.detailItem}>
-            <label className={styles.label}>Ciudad</label>
-            <input 
+            <label className={styles.label}>Alias</label>
+            <input
               className={styles.inputField}
-              value={formData.address.city}
+              placeholder="Alias de la empresa"
+              value={formData.company.catchPhrase}
               onChange={e => setFormData({
-                ...formData, 
-                address: { ...formData.address, city: e.target.value }
+                ...formData,
+                company: { ...formData.company, catchPhrase: e.target.value }
               })}
             />
           </div>
+
+
+          {/* Ciudad */}
+          <div className={styles.detailItem}>
+
+            <label className={styles.label}>Ciudad</label>
+
+            <input
+              className={styles.inputField}
+              value={formData.address.city}
+              onChange={e => setFormData({
+                ...formData,
+                address: { ...formData.address, city: e.target.value }
+              })}
+            />
+
+          </div>
         </div>
 
-        <div className={styles.actions} style={{marginTop: '20px'}}>
+        <div className={styles.actions} style={{ marginTop: '20px' }}>
           <button type="submit" className={styles.createButton} disabled={isSaving}>
             {isSaving ? "Guardando..." : "Guardar Usuario"}
           </button>

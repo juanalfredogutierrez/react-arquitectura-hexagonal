@@ -7,4 +7,6 @@ export const GestionUsuariosUseCases = (repository: UsuarioRepository) => ({
   delete: (id: string) => repository.delete(id),
   getById: (id: string) => repository.getById(id),
   getDetails: (id: string) => repository.getDetails(id),
+  getRoles: () => repository.getRoles(),
+
 });

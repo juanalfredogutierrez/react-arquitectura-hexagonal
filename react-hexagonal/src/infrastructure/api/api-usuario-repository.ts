@@ -15,6 +15,15 @@ export const ApiUsuarioRepository: UsuarioRepository = {
     return res.data;
   },
 
+
+  getRoles: async () => {
+    const res = await api.get<Usuario[]>('/users');
+    return res.data;
+  },
+
+
+  
+
   getDetails: async (id: string) => {
       console.log('consulta detalles:', id); // Log para verificar la respuesta
     const res = await api.get<Usuario>(`/users/${id}`);
